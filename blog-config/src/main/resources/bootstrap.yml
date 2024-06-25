@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: Blog-Config-Server
+  profiles:
+    #配置中心文件不使用git，使用本地配置文件
+    active: native
+  #本地配置文件路径为properties
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations: classpath:properties
+server:
+  port: 12580
+eureka:
+  client:
+    #注册中心服务地址
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    #服务ID名称，以及开启ip显示
+    instance-id: blogConfigServer
+    prefer-ip-address: true

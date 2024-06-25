@@ -1,0 +1,2 @@
+#测试访问这个配置 http://127.0.0.1:12580/remark.yml
+remark: If you can see this content, the configuration center has started successfully
