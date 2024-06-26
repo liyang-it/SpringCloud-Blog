@@ -1,8 +1,8 @@
 server:
-  port: 7070
+  port: 7071
 spring:
   application:
-    name: Blog-Admin
+    name: Blog-Article
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
@@ -36,7 +36,7 @@ spring:
     # 超时时间，单位毫秒
     timeout: 10000
     # 数据库编号
-    database: 1
+    database: 2
     # 配置lettuce
     lettuce:
       pool:
@@ -52,3 +52,4 @@ spring:
         time-between-eviction-runs: 30000
       #关闭超时时间；单位毫秒
       shutdown-timeout: 5000
+

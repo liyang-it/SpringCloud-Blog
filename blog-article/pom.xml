@@ -7,9 +7,9 @@
 		<artifactId>SpringCloudBlog</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>blog-admin</artifactId>
-	<name>blog-admin</name>
-	<description>blog后台管理</description>
+	<artifactId>blog-article</artifactId>
+	<name>blog-article</name>
+	<description>blog文章博客服务</description>
 	
 	<properties>
 		<java.version>8</java.version>
@@ -27,11 +27,13 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+		
 		<dependency>
-			<!--springboot整合 web -->
+			<!--springboot整合 webflux，不使用传统web，改为响应式webflux -->
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -57,8 +59,6 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.version}</version>
 		</dependency>
-		
-
 		
 		<dependency>
 			<groupId>com.liyangit</groupId>

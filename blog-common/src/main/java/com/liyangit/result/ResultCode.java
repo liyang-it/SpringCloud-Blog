@@ -18,6 +18,9 @@ public enum ResultCode {
 	ERROR_TOKEN_VERIFICATION(10003, "登录会话无效"),
 	ERROR_NOT_FOUND_USER(10004, "用户名或密码错误"),
 	ERROR_ADMIN_DISABLE(10004, "用户已被禁用"),
+	ERROR_INSERT(20001, "数据新增失败"),
+	ERROR_UPDATE(20002, "数据更新失败"),
+	ERROR_DELETE(20003, "数据删除失败"),
 	;
 	
 	

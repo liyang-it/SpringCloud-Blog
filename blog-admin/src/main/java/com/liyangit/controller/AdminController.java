@@ -32,16 +32,16 @@ public class AdminController {
 		return adminService.insertAdmin(admin);
 	}
 	
-	@PostMapping(value = "/updatedAdmin")
-	public ResponseData updatedAdmin(@RequestHeader String username, @RequestBody Admin admin) {
+	@PostMapping(value = "/updateAdmin")
+	public ResponseData updateAdmin(@RequestHeader String username, @RequestBody Admin admin) {
 		admin.setUpdatedBy(username);
-		return adminService.updatedAdmin(admin);
+		return adminService.updateAdmin(admin);
 	}
 	
-	@PostMapping(value = "/deletedAdmin")
-	public ResponseData deletedAdmin(@RequestHeader String username, @RequestBody Admin admin) {
+	@PostMapping(value = "/deleteAdmin")
+	public ResponseData deleteAdmin(@RequestHeader String username, @RequestBody Admin admin) {
 		admin.setUpdatedBy(username);
-		return adminService.deletedAdmin(admin);
+		return adminService.deleteAdmin(admin);
 	}
 	
 }

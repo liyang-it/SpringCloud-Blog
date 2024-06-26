@@ -9,6 +9,7 @@ spring:
     config:
       #配置中心地址,会根据 application.name 名称自动查找 Blog-IdGeneration.yml配置文件
       uri: http://localhost:12580
+      name: Blog-Gateway
     #gateway网关路由以及过滤器配置
     gateway:
       # 设置全局超时时间
