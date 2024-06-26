@@ -2,7 +2,15 @@
 
 一个使用`Spring-Cloud`官方组件开发的微服务博客系统
 
-SpringBoot版本为 `2.6.15`,对应SpringCloud版本官方文档 <a href="https://docs.spring.io/spring-cloud/docs/2021.0.9/reference/htmlsingle/">spring-cloud/docs/2021.0.9</a>
+SpringBoot版本为 `2.2.7`,对应SpringCloud版本官方文档 <a href="https://docs.spring.io/spring-cloud/docs/Hoxton.SR7/reference/html/">spring-cloud/docs/Hoxton.SR7</a>
+
+## 目录说明
+* **blog-common** `公共模块`
+* **blog-register** `注册中心`
+* **blog-config** `配置中心`
+* **blog-gateway** `网关`
+* **blog-admin** `后台管理API`
+
 
 ## 后端主要技术栈
 * JDK8 `JDK版本`
@@ -21,5 +29,4 @@ SpringBoot版本为 `2.6.15`,对应SpringCloud版本官方文档 <a href="https:
 * Spring Cloud Ribbon `负载均衡`
 
 ## Web端技术栈
-
 * Vue3

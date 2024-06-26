@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/blog-idGeneration/src/main/resources/archetype-resources" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/blog-common/src/main/resources/archetype-resources" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/blog-admin/src/main/resources/archetype-resources" includeSubdirectories="true" />
+    </excludeFromCompile>
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="blog-config" />
+        <module name="blog-common" />
+        <module name="blog-admin" />
+        <module name="blog-register" />
+        <module name="blog-gateway" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="blog-idGeneration" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SpringCloudBlog" options="" />
+      <module name="blog-admin" options="-parameters" />
+      <module name="blog-common" options="-parameters" />
+      <module name="blog-config" options="-parameters" />
+      <module name="blog-gateway" options="-parameters" />
+      <module name="blog-idGeneration" options="-parameters" />
+      <module name="blog-register" options="-parameters" />
+    </option>
+  </component>
+</project>

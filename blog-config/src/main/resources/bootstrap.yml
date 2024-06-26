@@ -21,3 +21,5 @@ eureka:
     #服务ID名称，以及开启ip显示
     instance-id: blogConfigServer
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+

@@ -37,6 +37,27 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 		
+		<!-- mybatis-plus -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>${mybatis-plus.version}</version>
+		</dependency>
+		
+		<!-- commons-lang3工具 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons-lang3.version}</version>
+		</dependency>
+		
+		<!-- mysql连接驱动 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.liyangit</groupId>
 			<artifactId>blog-common</artifactId>

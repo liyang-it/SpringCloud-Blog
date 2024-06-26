@@ -1,0 +1,44 @@
+logging:
+  config: classpath:logback-spring.xml
+server:
+  port: 8888
+spring:
+  application:
+    name: Blog-Gateway
+  cloud:
+    config:
+      #配置中心地址,会根据 application.name 名称自动查找 Blog-IdGeneration.yml配置文件
+      uri: http://localhost:12580
+    #gateway网关路由以及过滤器配置
+    gateway:
+      # 设置全局超时时间
+      httpclient:
+        connect-timeout: 500 # 连接超时时间，单位毫秒
+        response-timeout: 5000 # 响应超时时间，单位毫秒
+      globalcors: # 全局跨域处理
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        cors-configurations:
+          '[/**]':
+            # 允许跨域的源(网站域名/ip)，设置*为全部
+            # 允许跨域请求里的head字段，设置*为全部
+            # 允许跨域的method， 默认为GET和OPTIONS，设置*为全部
+            allow-credentials: true # 是否允许携带cookie
+            allowed-origins: # 运行的跨域请求的网站
+              - "*"
+            allowed-headers: "*" # 允许在请求中携带的头信息
+            allowed-methods: # 允许跨域ajax请求方式
+              - OPTIONS
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - PATCH
+            max-age: 36000  # 跨域检测的有效期
+      routes:
+        #后台管理路由
+        - id: blogAdmin #服务注册的名称，自定义，唯一
+          uri: lb://Blog-Admin #负载均衡查找应用名称(application.name)
+          predicates: # 路由断言，也就是判断是否符合路由规则的条件
+            - Path=/admin/** # path 按照路径进行匹配，只要以/admin/开头就符合规则
+          filters:
+            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段

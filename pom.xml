@@ -20,9 +20,9 @@
 	<modules>
 		<module>blog-register</module>
 		<module>blog-config</module>
-		<module>blog-idGeneration</module>
 		<module>blog-common</module>
 		<module>blog-admin</module>
+		<module>blog-gateway</module>
 	</modules>
 	
 	<properties>
@@ -31,6 +31,10 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring-cloud.version>Hoxton.SR7</spring-cloud.version>
 		<spring-boot.version>2.2.7.RELEASE</spring-boot.version>
+		<mybatis-plus.version>3.5.7</mybatis-plus.version>
+		<mysql.version>8.0.20</mysql.version>
+		<commons-lang3.version>3.8.1</commons-lang3.version>
+		<jwt.version>3.14.0</jwt.version>
 	</properties>
 	
 	<!-- pom版本管理 -->
