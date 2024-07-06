@@ -1,20 +1,30 @@
 logging:
   config: classpath:logback-spring.xml
 server:
-  port: 8888
+  port: 7031
+eureka:
+  client:
+    #注册中心服务地址
+    serviceUrl:
+      defaultZone: http://localhost:7011/eureka/
+  instance:
+    #服务ID名称，以及开启ip显示
+    instance-id: blogGateway
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
 spring:
   application:
     name: Blog-Gateway
   cloud:
     config:
       #配置中心地址,会根据 application.name 名称自动查找 Blog-IdGeneration.yml配置文件
-      uri: http://localhost:12580
+      uri: http://localhost:7021
       name: Blog-Gateway
     #gateway网关路由以及过滤器配置
     gateway:
       # 设置全局超时时间
       httpclient:
-        connect-timeout: 500 # 连接超时时间，单位毫秒
+        connect-timeout: 1000 # 连接超时时间，单位毫秒
         response-timeout: 5000 # 响应超时时间，单位毫秒
       globalcors: # 全局跨域处理
         add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
@@ -41,5 +51,27 @@ spring:
           uri: lb://Blog-Admin #负载均衡查找应用名称(application.name)
           predicates: # 路由断言，也就是判断是否符合路由规则的条件
             - Path=/admin/** # path 按照路径进行匹配，只要以/admin/开头就符合规则
+          filters:
+            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段
+        #博客文章服务路由 - 部署多份，配置负载均衡
+        - id: blogArticle1 #服务注册的名称，自定义，唯一
+          uri: lb://Blog-Article1 #负载均衡查找应用名称(application.name)
+          predicates: # 路由断言，也就是判断是否符合路由规则的条件
+            - Path=/api/** # path 按照路径进行匹配，只要以/admin/开头就符合规则
+            - Weight=group1, 10 # 百分之50 的流量进入到这个服务
+          filters:
+            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段
+        - id: blogArticle2 #服务注册的名称，自定义，唯一
+          uri: lb://Blog-Article2 #负载均衡查找应用名称(application.name)
+          predicates: # 路由断言，也就是判断是否符合路由规则的条件
+            - Path=/api/** # path 按照路径进行匹配，只要以/admin/开头就符合规则
+            - Weight=group1, 0 # 百分之50 的流量进入到这个服务
+          filters:
+            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段
+        #博客文章搜索服务路由
+        - id: blogSearch #服务注册的名称，自定义，唯一
+          uri: lb://Blog-Search #负载均衡查找应用名称(application.name)
+          predicates: # 路由断言，也就是判断是否符合路由规则的条件
+            - Path=/search/** # path 按照路径进行匹配，只要以/admin/开头就符合规则
           filters:
             - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段

@@ -18,6 +18,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<dependencies>
+		
 		<!-- Eureka 服务端 -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

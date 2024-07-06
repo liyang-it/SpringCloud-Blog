@@ -21,6 +21,8 @@ public enum ResultCode {
 	ERROR_INSERT(20001, "数据新增失败"),
 	ERROR_UPDATE(20002, "数据更新失败"),
 	ERROR_DELETE(20003, "数据删除失败"),
+	FEIGN_ERROR(30001, "服务调用失败"),
+	FEIGN_REQUEST_ERROR(30002, "服务调用请求失败")
 	;
 	
 	

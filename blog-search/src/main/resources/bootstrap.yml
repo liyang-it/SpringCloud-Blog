@@ -1,0 +1,9 @@
+logging:
+  config: classpath:logback-spring.xml
+spring:
+  application:
+    name: Blog-Search
+  #配置中心地址,会根据 application.name 名称自动查找 Blog-IdGeneration.yml配置文件
+  cloud:
+    config:
+      uri: http://localhost:7021

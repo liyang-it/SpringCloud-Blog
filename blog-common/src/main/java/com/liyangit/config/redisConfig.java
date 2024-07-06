@@ -1,9 +1,11 @@
 package com.liyangit.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -35,6 +37,7 @@ public class redisConfig {
 	
 	/**
 	 * 构造自定义RedisTemplate
+	 *
 	 * @param redisConnectionFactory redis连接工厂，默认为Lettuce
 	 * @return key使用String序列化，value使用 Jackson2JsonRedisSerializer<Object>
 	 */
@@ -42,12 +45,15 @@ public class redisConfig {
 	RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		
 		Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
+		
 		ObjectMapper om = new ObjectMapper();
+		
 		om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-		om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+		
+		// 激活默认的类型信息处理
+		om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
 		
 		// LocalDatetime序列化
-		
 		JavaTimeModule timeModule = new JavaTimeModule();
 		timeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		timeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));

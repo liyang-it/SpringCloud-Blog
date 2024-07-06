@@ -1,13 +1,62 @@
 #测试访问这个配置 http://127.0.0.1:12580/Blog-Admin.yml
+server:
+  port: 7041
 remark: If you can see this content, the configuration center has started successfully
 eureka:
   client:
     #注册中心服务地址
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:7011/eureka/
   instance:
     #服务ID名称，以及开启ip显示
     instance-id: blogAdmin
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 5
+# spring配置
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  #数据源
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_cloud_blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 10        # 连接池最小连接
+      maximum-pool-size: 100  # 连接池最大连接
+      auto-commit: true       # 自动提交
+      pool-name: BlogAdminHikariCP  # 连接池名称
+      idle-timeout: 600000    # 连接最大空闲时间(毫秒)，超过后删除
+      max-lifetime: 28740000  # 连接的最长生命周期。当连接达到此超时时，即使最近使用过，它也会从池中退役。正在使用的连接永远不会被退休，只有当它空闲时才会被删除
+      connection-test-query: SELECT 1 FROM DUAL # 测试SQL
+  #redis
+  redis:
+    # 地址
+    host: 127.0.0.1
+    # 端口号
+    port: 6379
+    # 密码
+    password:
+    # 超时时间，单位毫秒
+    timeout: 10000
+    # 数据库编号
+    database: 1
+    # 配置lettuce
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 5
+        # 连接池最大连接数（使用负值表示没有限制,不要配置过大，否则可能会影响redis的性能）
+        max-active: 40
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）；单位毫秒
+        max-wait: 5000
+        #设置驱逐空闲连接的时间间隔
+        time-between-eviction-runs: 30000
+      #关闭超时时间；单位毫秒
+      shutdown-timeout: 5000
 

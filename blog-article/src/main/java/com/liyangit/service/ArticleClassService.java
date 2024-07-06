@@ -17,4 +17,5 @@ public interface ArticleClassService {
 	ResponseData updateArticleClass(ArticleClass articleClass);
 	ResponseData deleteArticleClass(ArticleClass articleClass);
 	ResponseData pageQuery(ArticleClassQueryDTO dto);
+	ResponseData listQuery(ArticleClassQueryDTO dto);
 }

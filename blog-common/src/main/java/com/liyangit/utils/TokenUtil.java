@@ -33,8 +33,11 @@ public class TokenUtil {
 		// 7天后令牌token失效
 		instance.add(Calendar.DATE, 20);
 	
-		return JWT.create().withClaim("json", jsonObject) // json信息
-				.withExpiresAt(instance.getTime()) // 指定令牌的过期时间
+		return JWT.create()
+				// json信息
+				.withClaim("json", jsonObject)
+				// 指定令牌的过期时间
+				.withExpiresAt(instance.getTime())
 				.sign(Algorithm.HMAC256(secret));
 	}
 	

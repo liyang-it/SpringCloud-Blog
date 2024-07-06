@@ -1,3 +1,5 @@
+logging:
+  config: classpath:logback-spring.xml
 spring:
   application:
     name: Blog-Config-Server
@@ -11,12 +13,12 @@ spring:
         native:
           searchLocations: classpath:properties
 server:
-  port: 12580
+  port: 7021
 eureka:
   client:
     #注册中心服务地址
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://localhost:7011/eureka/
   instance:
     #服务ID名称，以及开启ip显示
     instance-id: blogConfigServer

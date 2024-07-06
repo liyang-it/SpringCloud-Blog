@@ -24,6 +24,7 @@
 		<module>blog-admin</module>
 		<module>blog-gateway</module>
 		<module>blog-article</module>
+		<module>blog-search</module>
 	</modules>
 	
 	<properties>

@@ -1,5 +1,7 @@
 package com.liyangit.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 /**
@@ -11,7 +13,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * @author LiYang
  */
 @TableName(value = "t_article_content")
-public class ArticleContent extends BaseEntity {
+public class ArticleContent {
+	@TableId(type = IdType.INPUT)
 	private String articleId;
 	
 	private String content;

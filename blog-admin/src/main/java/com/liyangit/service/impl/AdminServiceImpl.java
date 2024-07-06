@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liyangit.dto.AdminQueryDTO;
 import com.liyangit.entity.Admin;
+import com.liyangit.incrementer.DefaultIdentifierGenerator;
 import com.liyangit.mapper.AdminMapper;
 import com.liyangit.result.AdminResultCode;
 import com.liyangit.result.ResponseData;
 import com.liyangit.result.ResultCode;
 import com.liyangit.service.AdminService;
 import com.liyangit.utils.TokenUtil;
-import com.liyangit.utils.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -37,16 +37,16 @@ public class AdminServiceImpl implements AdminService {
 	public boolean verifyPasswordRules(String password) {
 		// 校验密码复杂度，密码要包含大小写字母,数字,且长度6-15个字符。
 		String regex = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d@$#!%*?&]{6,15}";
-		return password.matches(regex);
+		return !password.matches(regex);
 	}
 	
 	@Override
 	public ResponseData insertAdmin(Admin admin) {
-		if(!verifyPasswordRules(admin.getPassword())){
+		if(verifyPasswordRules(admin.getPassword())){
 			return ResponseData.normal(ResultCode.ERROR_INSERT.getCode(), "密码必须包含大小写字母,数字,且长度6-15个字符");
 		}
 		try {
-			admin.setId(UUIDUtil.getUUID());
+			admin.setId(DefaultIdentifierGenerator.getInstance().nextId(null).toString());
 			admin.setCreatedTime(LocalDateTime.now());
 			admin.setDeleted(false);
 			// 设置删除时间不为空，避免索引失效
@@ -61,8 +61,12 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ResponseData updateAdmin(Admin admin) {
 		
-		if(StringUtils.isNotBlank(admin.getPassword()) && !verifyPasswordRules(admin.getPassword())){
-			return ResponseData.normal(ResultCode.ERROR_INSERT.getCode(), "密码必须包含大小写字母,数字,且长度6-15个字符");
+		if(StringUtils.isBlank(admin.getId())){
+			return ResponseData.normal(ResultCode.ERROR_UPDATE.getCode(), ResultCode.ERROR_UPDATE.getMsg());
+		}
+		
+		if(StringUtils.isNotBlank(admin.getPassword()) && verifyPasswordRules(admin.getPassword())){
+			return ResponseData.normal(ResultCode.ERROR_UPDATE.getCode(), "密码必须包含大小写字母,数字,且长度6-15个字符");
 		}
 		try {
 			adminMapper.updateById(admin);

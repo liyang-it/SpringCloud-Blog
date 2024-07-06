@@ -1,0 +1,60 @@
+#测试访问这个配置 http://127.0.0.1:12580/Blog-Admin.yml
+server:
+  port: 7061
+remark: If you can see this content, the configuration center has started successfully
+eureka:
+  client:
+    #注册中心服务地址
+    serviceUrl:
+      defaultZone: http://localhost:7011/eureka/
+  instance:
+    #服务ID名称，以及开启ip显示
+    instance-id: blogSearch
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+# spring配置
+spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  #数据源
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_cloud_blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 10        # 连接池最小连接
+      maximum-pool-size: 100  # 连接池最大连接
+      auto-commit: true       # 自动提交
+      pool-name: BlogAdminHikariCP  # 连接池名称
+      idle-timeout: 600000    # 连接最大空闲时间(毫秒)，超过后删除
+      max-lifetime: 28740000  # 连接的最长生命周期。当连接达到此超时时，即使最近使用过，它也会从池中退役。正在使用的连接永远不会被退休，只有当它空闲时才会被删除
+      connection-test-query: SELECT 1 FROM DUAL # 测试SQL
+  # 配置 RabbitMQ 服务器
+  rabbitmq:
+    host: 120.78.134.13
+    port: 1672
+    username: spring_cloud_blog
+    password: 123456
+    # 虚拟 host 一般都是一个项目创建一个对应的host
+    virtual-host: spring_cloud_blog
+    #模板配置
+    template:
+      mandatory: true #设置为true时，如果消息无法路由到任何队列（没有匹配的交换器或队列绑定），RabbitMQ会将消息返回给生产者
+      receive-timeout: 5000 #消息接收的超时时间，单位是毫秒，这里设置为5000毫秒
+      reply-timeout: 5000 #回复消息的等待超时时间，同样也是5000毫秒
+  #elasticsearch
+  elasticsearch:
+    rest:
+      uris: 120.78.134.13:2200
+feign:
+  client:
+    config:
+      default: # 默认配置，也可以指定服务名称
+        connectTimeout: 2000 # 连接超时时间，单位毫秒
+        readTimeout: 2000 # 读取超时时间，单位毫秒
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+

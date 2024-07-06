@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.liyangit.mapper.ArticleEsMapper">
+	<resultMap id="defaultResultMap" type="com.liyangit.entity.ArticleEsEntity">
+		<id column="id" property="id" jdbcType="VARCHAR"/>
+		<result column="class_name" property="className" jdbcType="VARCHAR"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="content" property="content" jdbcType="VARCHAR"/>
+		<result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+		<result column="created_time" property="createdTime" jdbcType="TIMESTAMP"/>
+		<result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+		<result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP"/>
+		<result column="version" property="version" javaType="INTEGER"/>
+	</resultMap>
+	<select id="getArticleById" parameterType="java.lang.String" resultMap="defaultResultMap">
+		SELECT a.id,
+					 a.class_name,
+					 a.title,
+					 a.created_time,
+					 a.created_by,
+					 a.updated_time,
+					 a.updated_by,
+					 SUBSTR(c.content,1,50) as 'content',
+					 version
+		FROM `t_article` a
+					 LEFT JOIN t_article_content c ON a.id = c.article_id
+		WHERE a.id = #{id}
+	</select>
+</mapper>

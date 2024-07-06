@@ -21,7 +21,8 @@ public class SymmetricEncryption {
 	 */
 	public static String extract(String text, boolean mode) throws Exception {
 		try {
-			String key = "12345678qwertyui"; // AES的key要16位
+			// AES的key要16位
+			String key = "12345678qwertyui";
 			Cipher cipher = Cipher.getInstance("AES");
 			SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), "AES");
 			cipher.init(mode ? Cipher.ENCRYPT_MODE : Cipher.DECRYPT_MODE, secretKeySpec);

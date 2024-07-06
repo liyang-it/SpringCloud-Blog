@@ -1,6 +1,7 @@
 package com.liyangit.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.liyangit.constant.RedisKeyPrefix;
 import com.liyangit.entity.System;
 import com.liyangit.mapper.SystemMapper;
 import com.liyangit.result.ResponseData;
@@ -24,7 +25,7 @@ import java.util.List;
 public class SystemServiceImpl implements SystemService {
 	private final SystemMapper mapper;
 	private final RedisUtils redisUtils;
-	private final String redisKeyPrefix = "blog_system:";
+	private final String redisKeyPrefix = RedisKeyPrefix.MAIN.getPrefix() + "system:";
 	public SystemServiceImpl(SystemMapper mapper, RedisUtils redisUtils) {
 		this.mapper = mapper;
 		this.redisUtils = redisUtils;
@@ -40,7 +41,7 @@ public class SystemServiceImpl implements SystemService {
 		} else {
 			// 带查询条件
 			key = redisKeyPrefix + code;
-			queryWrapper = new QueryWrapper<System>();
+			queryWrapper = new QueryWrapper<>();
 			queryWrapper.eq("code", code);
 		}
 		
