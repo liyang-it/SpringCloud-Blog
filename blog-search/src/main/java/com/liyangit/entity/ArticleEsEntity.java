@@ -19,15 +19,17 @@ import java.util.Date;
  */
 @Document(indexName = "spring_cloud_blog", replicas = 0)
 public class ArticleEsEntity {
-	
-	@Field(name = "content", type = FieldType.Text)
-	public String content;
+
 	@Id
 	private String id;
 	@Field(name = "className", type = FieldType.Keyword)
 	private String className;
 	@Field(name = "title", type = FieldType.Text)
 	private String title;
+	
+	@Field(name = "content", type = FieldType.Text)
+	public String content;
+	
 	@Field(name = "createdBy", type = FieldType.Keyword)
 	private String createdBy;
 	

@@ -1,10 +1,9 @@
 package com.liyangit.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * <h2>文章数据查询es</h2>
@@ -15,27 +14,33 @@ import java.util.Date;
  * @author LiYang
  */
 public class ArticleEsQueryDTO {
-
+	
+	public String content;
 	private String id;
 	private String className;
 	private String title;
-	public String content;
 	private String createdBy;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date createdTime;
-	
-	private String updatedBy;
+	private LocalDateTime createdTimeBegin;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date updatedTime;
+	private LocalDateTime createdTimeEnd;
 	
 	// 关键字 - 同时多条件查询多个值，等同于数据库 OR 查询，(可同时查询 title、content)
 	private String keyword;
 	
+	
+	// 排序方式(ASC、DESC) 默认 DESC
+	private String order;
+	
+	// 排序类型， 1 按创建时间排序，2 按修改时间排序
+	private Integer oderType;
+	
 	private Integer page;
+	
 	private Integer limit;
 	
 	public String getContent() {
@@ -78,28 +83,20 @@ public class ArticleEsQueryDTO {
 		this.createdBy = createdBy;
 	}
 	
-	public Date getCreatedTime() {
-		return createdTime;
+	public LocalDateTime getCreatedTimeBegin() {
+		return createdTimeBegin;
 	}
 	
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
+	public void setCreatedTimeBegin(LocalDateTime createdTimeBegin) {
+		this.createdTimeBegin = createdTimeBegin;
 	}
 	
-	public String getUpdatedBy() {
-		return updatedBy;
+	public LocalDateTime getCreatedTimeEnd() {
+		return createdTimeEnd;
 	}
 	
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-	
-	public Date getUpdatedTime() {
-		return updatedTime;
-	}
-	
-	public void setUpdatedTime(Date updatedTime) {
-		this.updatedTime = updatedTime;
+	public void setCreatedTimeEnd(LocalDateTime createdTimeEnd) {
+		this.createdTimeEnd = createdTimeEnd;
 	}
 	
 	public Integer getPage() {
@@ -125,4 +122,22 @@ public class ArticleEsQueryDTO {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
+	
+	public String getOrder() {
+		return order;
+	}
+	
+	public void setOrder(String order) {
+		this.order = order;
+	}
+	
+	public Integer getOderType() {
+		return oderType;
+	}
+	
+	public void setOderType(Integer oderType) {
+		this.oderType = oderType;
+	}
+	
+	
 }

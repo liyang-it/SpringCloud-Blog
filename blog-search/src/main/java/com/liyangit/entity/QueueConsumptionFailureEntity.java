@@ -22,7 +22,7 @@ public class QueueConsumptionFailureEntity {
 	private String queueName;
 	private Boolean status;
 	private LocalDateTime createdTime;
-	private LocalDateTime updateTime;
+	private LocalDateTime updatedTime;
 	
 	public String getMessageId() {
 		return messageId;
@@ -64,11 +64,11 @@ public class QueueConsumptionFailureEntity {
 		this.createdTime = createdTime;
 	}
 	
-	public LocalDateTime getUpdateTime() {
-		return updateTime;
+	public LocalDateTime getUpdatedTime() {
+		return updatedTime;
 	}
 	
-	public void setUpdateTime(LocalDateTime updateTime) {
-		this.updateTime = updateTime;
+	public void setUpdatedTime(LocalDateTime updatedTime) {
+		this.updatedTime = updatedTime;
 	}
 }

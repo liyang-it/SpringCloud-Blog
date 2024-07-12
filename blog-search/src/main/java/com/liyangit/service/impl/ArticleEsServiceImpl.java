@@ -3,6 +3,7 @@ package com.liyangit.service.impl;
 import com.liyangit.dto.ArticleEsQueryDTO;
 import com.liyangit.entity.ArticleEsEntity;
 import com.liyangit.repository.ArticleEsRepository;
+import com.liyangit.result.PageData;
 import com.liyangit.result.ResponseData;
 import com.liyangit.service.ArticleEsService;
 import org.apache.commons.lang3.StringUtils;
@@ -18,6 +19,8 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
+
 /**
  * <h2>博客文章es服务实现层</h2>
  * <p>
@@ -30,6 +33,7 @@ import org.springframework.stereotype.Service;
 public class ArticleEsServiceImpl implements ArticleEsService {
 	private final ArticleEsRepository repository;
 	private final ElasticsearchRestTemplate template;
+	private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	public ArticleEsServiceImpl(ArticleEsRepository repository, ElasticsearchRestTemplate template) {
 		this.repository = repository;
@@ -44,7 +48,7 @@ public class ArticleEsServiceImpl implements ArticleEsService {
 	@Override
 	public ArticleEsEntity findById(String id) {
 		// 存在则返回, 不存在则返回默认null
-		return repository.findById(id).orElse(new ArticleEsEntity());
+		return repository.findById(id).orElse(null);
 	}
 	
 	@Override
@@ -84,7 +88,7 @@ public class ArticleEsServiceImpl implements ArticleEsService {
 		// 如果使用了关键字查询，那么直接or查询,不在独立条件查询
 		if (StringUtils.isNotBlank(dto.getKeyword())) {
 			// 使用multi_match_query来搜索多个字段
-			queryBuilder.withQuery(new MultiMatchQueryBuilder(dto.getKeyword(), "className", "title", "content").type(MultiMatchQueryBuilder.Type.BEST_FIELDS));
+			queryBuilder.withQuery(new MultiMatchQueryBuilder(dto.getKeyword(), "className", "title", "content", "createdBy").type(MultiMatchQueryBuilder.Type.BEST_FIELDS));
 			
 		} else {
 			// 添加基本分词查询
@@ -104,22 +108,40 @@ public class ArticleEsServiceImpl implements ArticleEsService {
 			if (StringUtils.isNotBlank(dto.getContent())) {
 				filter.must(QueryBuilders.matchQuery("content", dto.getContent()));
 			}
+			if (StringUtils.isNotBlank(dto.getCreatedBy())) {
+				filter.must(QueryBuilders.matchQuery("createdBy", dto.getCreatedBy()));
+			}
+		}
+		
+		// 时间范围
+		if (dto.getCreatedTimeBegin() != null) {
+			filter.must(QueryBuilders.rangeQuery("createdTime").gte(formatter.format(dto.getCreatedTimeBegin())));
+		}
+		
+		if (dto.getCreatedTimeEnd() != null) {
+			filter.must(QueryBuilders.rangeQuery("createdTime").lte(formatter.format(dto.getCreatedTimeEnd())));
 		}
 		
 		// 将过滤条件放入查询
 		queryBuilder.withFilter(filter);
 		
 		// 排序
-		queryBuilder.withSort(SortBuilders.fieldSort("createdTime").order(SortOrder.DESC));
-		queryBuilder.withSort(SortBuilders.fieldSort("updatedTime").order(SortOrder.DESC));
+		SortOrder order = SortOrder.fromString(StringUtils.isNotBlank(dto.getOrder()) ? dto.getOrder() : "desc");
+		
+		if (dto.getOderType() == null || dto.getOderType() == 1) {
+			// 默认使用创建时间排序
+			queryBuilder.withSort(SortBuilders.fieldSort("createdTime").order(order));
+		} else {
+			queryBuilder.withSort(SortBuilders.fieldSort("updatedTime").order(order));
+		}
 		
 		NativeSearchQuery nativeSearchQuery = queryBuilder.build();
-
+		
 		nativeSearchQuery.addFields("id", "className", "title", "content", "createdBy", "createdTime", "updatedBy", "updatedTime");
 		
 		// 使用ElasticsearchRestTemplate进行复杂查询
 		AggregatedPage<ArticleEsEntity> page = template.queryForPage(nativeSearchQuery, ArticleEsEntity.class);
 		
-		return ResponseData.success(page);
+		return ResponseData.success(new PageData<ArticleEsEntity>(page));
 	}
 }

@@ -55,10 +55,10 @@ public class RabbitRetryConfig {
 		// 例如，如果你将setConcurrentConsumers(5)调用应用于SimpleMessageListenerContainer实例，那么它将创建5个并发消费者来处理消息
 		// 请注意，增加并发消费者的数量可能会增加系统的负载和资源消耗。你需要根据你的应用程序的需求和系统资源来决定合适的并发消费者数量
 		// 如果你同时发送的消息数量少于或等于 concurrentConsumers 条，那么只有 concurrentConsumers 个消费者会处理消息，而其他的消费者将处于空闲状态。可以通过增加并发消费者的数量，以提高消息处理的并发性
-		containerFactory.setConcurrentConsumers(100);
+		containerFactory.setConcurrentConsumers(1);
 		
 		// 设置消费者数量上限；默认为“并发消费者”。消费者将按需添加。不能小于concurrentConsumers
-		containerFactory.setMaxConcurrentConsumers(100);
+		containerFactory.setMaxConcurrentConsumers(5);
 		
 		// 自动应答
 		containerFactory.setAcknowledgeMode(AcknowledgeMode.AUTO);
