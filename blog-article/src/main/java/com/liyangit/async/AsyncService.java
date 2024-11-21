@@ -1,8 +1,11 @@
 package com.liyangit.async;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.liyangit.constant.RabbitMQConstant;
 import com.liyangit.constant.RedisKeyPrefix;
 import com.liyangit.entity.Article;
+import com.liyangit.entity.QueueSendFailureEntity;
+import com.liyangit.mapper.QueueSendFailureMapper;
 import com.liyangit.utils.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +29,13 @@ public class AsyncService {
 	private final static Logger log = LoggerFactory.getLogger(AsyncService.class);
 	private final RabbitTemplate template;
 	private final RedisUtils redisUtils;
+	private final QueueSendFailureMapper queueSendFailureMapper;
+
 	
-	public AsyncService(RabbitTemplate template, RedisUtils redisUtils) {
+	public AsyncService(RabbitTemplate template, RedisUtils redisUtils, QueueSendFailureMapper queueSendFailureMapper) {
 		this.template = template;
 		this.redisUtils = redisUtils;
+		this.queueSendFailureMapper = queueSendFailureMapper;
 	}
 	
 	@Async
@@ -48,11 +54,25 @@ public class AsyncService {
 		// 方案3 将整个文章数据对象传递过去(如果文章数据量过大传递非常消费带宽和性能)
 		// 方案4 使用redis，数据库保存完之后往redis中存储，消息队列中取redis，不存在则重试
 		// 这边采用的方法为：消费端设置消费重试，超过最大重试次数之后 将消息加入到死信队列，在死信队列中将消费失败记录保存在数据库当中
-		
+		LocalDateTime now = LocalDateTime.now();
 		JSONObject rabbitMQData = new JSONObject();
 		rabbitMQData.put("controls", controls);
 		rabbitMQData.put("messageId", article.getId());
-		rabbitMQData.put("createdTime", LocalDateTime.now());
-		template.convertAndSend("qewqeqwe", "qeweqwewqe", rabbitMQData.toString());
+		rabbitMQData.put("createdTime", now);
+		rabbitMQData.put("Data", JSONObject.toJSONString(article));
+		String message = rabbitMQData.toString();
+		try {
+			template.convertAndSend(RabbitMQConstant.SYNC_ARTICLE__TO_ES_EX_CHANGE.getValue(), RabbitMQConstant.SYNC_ARTICLE__TO_ES_ROUTER_KEY.getValue(), message);
+		} catch (Exception e) {
+			log.error("同步博客文章数据到ElasticSearch 消息发送失败，原因：[{}]", e.getMessage());
+			QueueSendFailureEntity entity = new QueueSendFailureEntity();
+			entity.setMessageId(article.getId());
+			entity.setMessage(message);
+			entity.setQueueName(RabbitMQConstant.SYNC_ARTICLE__TO_ES_ROUTER_KEY.getValue());
+			entity.setFailureReason(e.getMessage());
+			entity.setCreatedTime(now);
+			queueSendFailureMapper.insert(entity);
+			throw new RuntimeException(e);
+		}
 	}
 }

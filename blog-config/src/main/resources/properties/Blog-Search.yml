@@ -34,8 +34,8 @@ spring:
       connection-test-query: SELECT 1 FROM DUAL # 测试SQL
   # 配置 RabbitMQ 服务器
   rabbitmq:
-    host: 120.78.134.13
-    port: 1672
+    host: localhost
+    port: 5672
     username: spring_cloud_blog
     password: 123456
     # 虚拟 host 一般都是一个项目创建一个对应的host
@@ -45,10 +45,10 @@ spring:
       mandatory: true #设置为true时，如果消息无法路由到任何队列（没有匹配的交换器或队列绑定），RabbitMQ会将消息返回给生产者
       receive-timeout: 5000 #消息接收的超时时间，单位是毫秒，这里设置为5000毫秒
       reply-timeout: 5000 #回复消息的等待超时时间，同样也是5000毫秒
-  #elasticsearch
+  #elasticsearch 服务地址
   elasticsearch:
     rest:
-      uris: 120.78.134.13:2200
+      uris: localhost:9200
 feign:
   client:
     config:

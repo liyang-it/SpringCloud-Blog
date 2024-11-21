@@ -92,6 +92,8 @@ public class SyncArticleToEsReceiver {
 	@RabbitListener(queues = SYNC_ARTICLE__TO_ES_ROUTER_KEY_DEAD)
 	public void listener2(Message message) {
 		String id = null;
+		QueueConsumptionFailureEntity entity = new QueueConsumptionFailureEntity();
+		String failureReason = null;
 		try {
 			// 消息数据
 			JSONObject json = JSON.parseObject(message.getBody());
@@ -100,17 +102,22 @@ public class SyncArticleToEsReceiver {
 			
 			id = json.getString("messageId");
 			
-			QueueConsumptionFailureEntity entity = new QueueConsumptionFailureEntity();
+			
 			entity.setMessageId(id);
 			entity.setMessage(json.toString());
 			entity.setQueueName(message.getMessageProperties().getHeader("x-first-death-queue"));
+			
 			entity.setStatus(false);
 			entity.setCreatedTime(LocalDateTime.now());
-			consumptionFailureMapper.insert(entity);
+
 			log.info("********** 消息数据ID：[{}],   同步ES 重试多次依旧失败,将失败记录保存进数据库 ********** ", id);
 		} catch (Exception e) {
 			log.error("********** 消息数据ID：[{}],   将同步ES消费失败记录保存进数据库失败，原因：[{}] ********** ", id, e.getMessage());
+			failureReason = e.getMessage();
 			throw new RuntimeException(e.getMessage());
+		}finally {
+			entity.setFailureReason(failureReason);
+			consumptionFailureMapper.insert(entity);
 		}
 	}
 }

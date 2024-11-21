@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : localhost-mysql
  Source Server Type    : MySQL
  Source Server Version : 80037 (8.0.37)
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80037 (8.0.37)
  File Encoding         : 65001
 
- Date: 12/07/2024 13:57:09
+ Date: 21/11/2024 13:21:57
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `t_admin`  (
   `deleted_time` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uni_username`(`username` ASC, `deleted` ASC, `deleted_time` ASC) USING BTREE COMMENT '用户名唯一索引'
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_admin
@@ -59,7 +59,7 @@ CREATE TABLE `t_article`  (
   `deleted` tinyint(1) NULL DEFAULT 0 COMMENT '0正常 1 删除',
   `deleted_time` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客文章信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客文章信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_article
@@ -83,6 +83,17 @@ INSERT INTO `t_article` VALUES ('1810160311957381122', 'Java', '【Java】还不
 INSERT INTO `t_article` VALUES ('1810192593367764994', 'Java', '【Java】还不懂this关键字？一分钟彻底弄懂this关键字', '2024-07-08 14:02:01', 'liyang', NULL, NULL, 1, 0, NULL);
 INSERT INTO `t_article` VALUES ('1810193036617617409', 'Java', '【Java】还不懂this关键字？一分钟彻底弄懂this关键字', '2024-07-08 14:03:46', 'liyang', NULL, NULL, 1, 0, NULL);
 INSERT INTO `t_article` VALUES ('1810193519432339458', 'Java', '【Java】还不懂this关键字？一分钟彻底弄懂this关键字', '2024-07-08 14:05:41', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859421624764313602', '新闻', '今日天气', '2024-11-21 10:20:36', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859423222655725570', '新闻', '今日天气', '2024-11-21 10:26:57', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859423228418699266', '新闻', '今日天气', '2024-11-21 10:26:59', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859426861587652609', '新闻', '今日天气', '2024-11-21 10:41:25', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859427613781549058', '新闻', '今日天气', '2024-11-21 10:44:24', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859428228184182786', '新闻', '今日天气', '2024-11-21 10:46:51', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859431417071570945', '新闻', '今日天气', '2024-11-21 10:59:31', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859432556445831169', '新闻', '今日天气', '2024-11-21 11:04:03', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859442421885075457', '2024-11-21', '今日事项', '2024-11-21 11:43:15', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859442730279665665', '2024-11-21', '今日事项', '2024-11-21 11:44:28', 'liyang', NULL, NULL, 1, 0, NULL);
+INSERT INTO `t_article` VALUES ('1859443281427959809', '2024-11-21', '今日事项', '2024-11-21 11:46:40', 'liyang', NULL, NULL, 1, 0, NULL);
 
 -- ----------------------------
 -- Table structure for t_article_class
@@ -99,7 +110,7 @@ CREATE TABLE `t_article_class`  (
   `deleted_time` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uni_class_name`(`class_name` ASC, `deleted` ASC, `deleted_time` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客文章分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客文章分类表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_article_class
@@ -117,7 +128,7 @@ CREATE TABLE `t_article_content`  (
   `article_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '文章ID',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '文章内容',
   PRIMARY KEY (`article_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客文章信息内容表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '博客文章信息内容表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_article_content
@@ -141,6 +152,17 @@ INSERT INTO `t_article_content` VALUES ('1810160311957381122', '在上一篇【J
 INSERT INTO `t_article_content` VALUES ('1810192593367764994', '在上一篇【JavaSE】一文看懂构造器/构造方法（Cunstructor）中，我们已经在构造器中初步窥得this关键字的冰山一角了。大家有没有考虑过，在一个类的构造器中，我们为什么要使用this.属性而不直接使用属性呢？毕竟一个类中，不管属性被什么关键字修饰，在类中都可以访问。随着这个问题，今天瑶瑶子带大家深入分析一下Java中this关键字,让大家彻底理解this关键字.');
 INSERT INTO `t_article_content` VALUES ('1810193036617617409', '在上一篇【JavaSE】一文看懂构造器/构造方法（Cunstructor）中，我们已经在构造器中初步窥得this关键字的冰山一角了。大家有没有考虑过，在一个类的构造器中，我们为什么要使用this.属性而不直接使用属性呢？毕竟一个类中，不管属性被什么关键字修饰，在类中都可以访问。随着这个问题，今天瑶瑶子带大家深入分析一下Java中this关键字,让大家彻底理解this关键字.');
 INSERT INTO `t_article_content` VALUES ('1810193519432339458', '在上一篇【JavaSE】一文看懂构造器/构造方法（Cunstructor）中，我们已经在构造器中初步窥得this关键字的冰山一角了。大家有没有考虑过，在一个类的构造器中，我们为什么要使用this.属性而不直接使用属性呢？毕竟一个类中，不管属性被什么关键字修饰，在类中都可以访问。随着这个问题，今天瑶瑶子带大家深入分析一下Java中this关键字,让大家彻底理解this关键字.');
+INSERT INTO `t_article_content` VALUES ('1859421624764313602', '1');
+INSERT INTO `t_article_content` VALUES ('1859423222655725570', '1');
+INSERT INTO `t_article_content` VALUES ('1859423228418699266', '1');
+INSERT INTO `t_article_content` VALUES ('1859426861587652609', '1');
+INSERT INTO `t_article_content` VALUES ('1859427613781549058', '1');
+INSERT INTO `t_article_content` VALUES ('1859428228184182786', '1');
+INSERT INTO `t_article_content` VALUES ('1859431417071570945', '1');
+INSERT INTO `t_article_content` VALUES ('1859432556445831169', '1');
+INSERT INTO `t_article_content` VALUES ('1859442421885075457', '1.XXX /r/n 2.xxx');
+INSERT INTO `t_article_content` VALUES ('1859442730279665665', '1.XXX /r/n 2.xxx');
+INSERT INTO `t_article_content` VALUES ('1859443281427959809', '1.XXX /r/n 2.xxx');
 
 -- ----------------------------
 -- Table structure for t_queue_consumption_failure
@@ -150,11 +172,12 @@ CREATE TABLE `t_queue_consumption_failure`  (
   `message_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '消息id',
   `message` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '消息内容',
   `queue_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '队列名称',
+  `failure_reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '失败原因',
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态 0(失败,默认值) 1 重新处理成功',
   `created_time` datetime NULL DEFAULT NULL,
   `updated_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`message_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息队列消费失败记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息队列消费失败记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_queue_consumption_failure
@@ -168,15 +191,21 @@ CREATE TABLE `t_queue_send_failure`  (
   `message_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '消息id',
   `message` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '消息内容',
   `queue_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '队列名称',
+  `failure_reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '失败原因',
   `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态 0(失败,默认值) 1 重新处理成功',
   `created_time` datetime NULL DEFAULT NULL,
   `updated_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`message_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息发送失败记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息发送失败记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_queue_send_failure
 -- ----------------------------
+INSERT INTO `t_queue_send_failure` VALUES ('1859428228184182786', '{\"controls\":\"insert\",\"messageId\":\"1859428228184182786\",\"createdTime\":\"2024-11-21 10:46:50.876\",\"Data\":\"{\\\"className\\\":\\\"新闻\\\",\\\"content\\\":\\\"1\\\",\\\"createdBy\\\":\\\"liyang\\\",\\\"createdTime\\\":\\\"2024-11-21 10:46:50\\\",\\\"deleted\\\":false,\\\"id\\\":\\\"1859428228184182786\\\",\\\"title\\\":\\\"今日天气\\\"}\"}', 'spring_blog_sync_article_to_es', NULL, 0, '2024-11-21 10:46:51', NULL);
+INSERT INTO `t_queue_send_failure` VALUES ('1859431417071570945', '{\"controls\":\"insert\",\"messageId\":\"1859431417071570945\",\"createdTime\":\"2024-11-21 10:59:31.192\",\"Data\":\"{\\\"className\\\":\\\"新闻\\\",\\\"content\\\":\\\"1\\\",\\\"createdBy\\\":\\\"liyang\\\",\\\"createdTime\\\":\\\"2024-11-21 10:59:31\\\",\\\"deleted\\\":false,\\\"id\\\":\\\"1859431417071570945\\\",\\\"title\\\":\\\"今日天气\\\"}\"}', 'spring_blog_sync_article_to_es', NULL, 0, '2024-11-21 10:59:31', NULL);
+INSERT INTO `t_queue_send_failure` VALUES ('1859442421885075457', '{\"controls\":\"insert\",\"messageId\":\"1859442421885075457\",\"createdTime\":\"2024-11-21 11:43:14.851\",\"Data\":\"{\\\"className\\\":\\\"2024-11-21\\\",\\\"content\\\":\\\"1.XXX /r/n 2.xxx\\\",\\\"createdBy\\\":\\\"liyang\\\",\\\"createdTime\\\":\\\"2024-11-21 11:43:14\\\",\\\"deleted\\\":false,\\\"id\\\":\\\"1859442421885075457\\\",\\\"title\\\":\\\"今日事项\\\"}\"}', 'spring_blog_sync_article_to_es', 'com.rabbitmq.client.AuthenticationFailureException: ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN. For details see the broker logfile.', 0, '2024-11-21 11:43:15', NULL);
+INSERT INTO `t_queue_send_failure` VALUES ('1859442730279665665', '{\"controls\":\"insert\",\"messageId\":\"1859442730279665665\",\"createdTime\":\"2024-11-21 11:44:28.336\",\"Data\":\"{\\\"className\\\":\\\"2024-11-21\\\",\\\"content\\\":\\\"1.XXX /r/n 2.xxx\\\",\\\"createdBy\\\":\\\"liyang\\\",\\\"createdTime\\\":\\\"2024-11-21 11:44:28\\\",\\\"deleted\\\":false,\\\"id\\\":\\\"1859442730279665665\\\",\\\"title\\\":\\\"今日事项\\\"}\"}', 'spring_blog_sync_article_to_es', 'com.rabbitmq.client.AuthenticationFailureException: ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN. For details see the broker logfile.', 0, '2024-11-21 11:44:28', NULL);
+INSERT INTO `t_queue_send_failure` VALUES ('1859443281427959809', '{\"controls\":\"insert\",\"messageId\":\"1859443281427959809\",\"createdTime\":\"2024-11-21 11:46:39.800\",\"Data\":\"{\\\"className\\\":\\\"2024-11-21\\\",\\\"content\\\":\\\"1.XXX /r/n 2.xxx\\\",\\\"createdBy\\\":\\\"liyang\\\",\\\"createdTime\\\":\\\"2024-11-21 11:46:39\\\",\\\"deleted\\\":false,\\\"id\\\":\\\"1859443281427959809\\\",\\\"title\\\":\\\"今日事项\\\"}\"}', 'spring_blog_sync_article_to_es', 'com.rabbitmq.client.AuthenticationFailureException: ACCESS_REFUSED - Login was refused using authentication mechanism PLAIN. For details see the broker logfile.', 0, '2024-11-21 11:46:40', NULL);
 
 -- ----------------------------
 -- Table structure for t_system
@@ -190,7 +219,7 @@ CREATE TABLE `t_system`  (
   `remark` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uni_code`(`code` ASC, `label` ASC, `value` ASC) USING BTREE COMMENT '唯一索引'
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_system

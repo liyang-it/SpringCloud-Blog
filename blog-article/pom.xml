@@ -39,13 +39,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 		
-		<!-- mybatis-plus -->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>${mybatis-plus.version}</version>
-		</dependency>
-		
 		<!-- mysql连接驱动 -->
 		<dependency>
 			<groupId>mysql</groupId>

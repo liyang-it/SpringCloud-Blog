@@ -61,8 +61,8 @@ spring:
       shutdown-timeout: 5000
   # 配置 RabbitMQ 服务器
   rabbitmq:
-    host: 120.78.134.13
-    port: 1672
+    host: localhost
+    port: 5672
     username: spring_cloud_blog
     password: 123456
     # 虚拟 host 一般都是一个项目创建一个对应的host

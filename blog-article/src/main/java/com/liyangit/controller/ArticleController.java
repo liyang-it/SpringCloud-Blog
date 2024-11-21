@@ -1,5 +1,6 @@
 package com.liyangit.controller;
 
+import com.liyangit.dto.ArticleQueryDTO;
 import com.liyangit.entity.Article;
 import com.liyangit.result.ResponseData;
 import com.liyangit.service.ArticleService;
@@ -19,30 +20,35 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(value = "/article")
 public class ArticleController {
-	@Autowired
-	private ArticleService service;
-	
-	@GetMapping(value = "/getArticleById")
-	public ResponseData getArticleById(@RequestParam String id) {
-		return service.getArticleById(id);
-	}
-	
-	@PostMapping(value = "/insertArticle")
-	public ResponseData insertArticle(@RequestHeader String username, @RequestBody @Valid Article article) {
-		article.setCreatedBy(username);
-		return service.insertArticle(article);
-	}
-	
-	@PostMapping(value = "/updateArticle")
-	public ResponseData updateArticle(@RequestHeader String username, @RequestBody @Valid Article article) {
-		article.setUpdatedBy(username);
-		return service.updateArticle(article);
-	}
-	
-	@PostMapping(value = "/deleteArticle")
-	public ResponseData deleteArticle(@RequestHeader String username, @RequestBody Article article) {
-		article.setUpdatedBy(username);
-		return service.deleteArticle(article);
-	}
-	
+    @Autowired
+    private ArticleService service;
+
+    @GetMapping(value = "/getArticleById")
+    public ResponseData getArticleById(@RequestParam String id) {
+        return service.getArticleById(id);
+    }
+
+    @PostMapping(value = "/insertArticle")
+    public ResponseData insertArticle(@RequestHeader String username, @RequestBody @Valid Article article) {
+        article.setCreatedBy(username);
+        return service.insertArticle(article);
+    }
+
+    @PostMapping(value = "/updateArticle")
+    public ResponseData updateArticle(@RequestHeader String username, @RequestBody @Valid Article article) {
+        article.setUpdatedBy(username);
+        return service.updateArticle(article);
+    }
+
+    @PostMapping(value = "/deleteArticle")
+    public ResponseData deleteArticle(@RequestHeader String username, @RequestBody Article article) {
+        article.setUpdatedBy(username);
+        return service.deleteArticle(article);
+    }
+
+    @GetMapping(value = "/pageQuery")
+    public ResponseData pageQuery(ArticleQueryDTO dto) {
+        return service.pageQuery(dto);
+    }
+
 }

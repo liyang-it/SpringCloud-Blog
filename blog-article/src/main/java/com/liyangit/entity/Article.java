@@ -2,6 +2,7 @@ package com.liyangit.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.validation.constraints.NotBlank;
 
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotBlank;
  * @author LiYang
  */
 @TableName(value = "t_article")
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class Article extends BaseEntity{
 	@NotBlank(message = "分类不能为空")
 	private String className;

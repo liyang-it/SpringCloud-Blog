@@ -1,5 +1,6 @@
 package com.liyangit.service;
 
+import com.liyangit.dto.ArticleQueryDTO;
 import com.liyangit.entity.Article;
 import com.liyangit.result.ResponseData;
 
@@ -16,4 +17,5 @@ public interface ArticleService {
 	ResponseData updateArticle(Article article);
 	ResponseData deleteArticle(Article article);
 	ResponseData getArticleById(String id);
+	ResponseData pageQuery(ArticleQueryDTO dto);
 }

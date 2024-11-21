@@ -1,7 +1,11 @@
 package com.liyangit.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.liyangit.async.AsyncService;
 import com.liyangit.constant.RedisKeyPrefix;
+import com.liyangit.dto.ArticleQueryDTO;
 import com.liyangit.entity.Article;
 import com.liyangit.entity.ArticleContent;
 import com.liyangit.incrementer.DefaultIdentifierGenerator;
@@ -10,6 +14,7 @@ import com.liyangit.mapper.ArticleMapper;
 import com.liyangit.result.ResponseData;
 import com.liyangit.service.ArticleService;
 import com.liyangit.utils.RedisUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +42,18 @@ public class ArticleServiceImpl implements ArticleService {
 		this.contentMapper = contentMapper;
 		this.redisUtils = redisUtils;
 	}
-	
+
+	@Override
+	public ResponseData pageQuery(ArticleQueryDTO dto) {
+		IPage<Article> iPage = new Page<>(dto.getPage(), dto.getLimit());
+		QueryWrapper<Article> queryWrapper = new QueryWrapper<>();
+		queryWrapper.eq("deleted", 0);
+		queryWrapper.like(StringUtils.isNotBlank(dto.getClassName()), "class_name", dto.getClassName());
+		queryWrapper.like(StringUtils.isNotBlank(dto.getTitle()), "title", dto.getTitle());
+		iPage = mapper.selectPage(iPage, queryWrapper);
+		return ResponseData.success(iPage);
+	}
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public ResponseData insertArticle(Article article) {
@@ -54,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		// 发送 消息给mq
 		asyncService.syncArticleToCache("insert", article);
-		return ResponseData.success();
+		return ResponseData.success(article.getId());
 	}
 	
 	@Override
@@ -71,7 +87,7 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		// 发送 消息给mq
 		asyncService.syncArticleToCache("update", article);
-		return ResponseData.success();
+		return ResponseData.success(article.getId());
 	}
 	
 	@Override

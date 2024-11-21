@@ -14,6 +14,9 @@ public class BaseQueryDTO {
 	private Integer limit;
 	
 	public Integer getPage() {
+		if(page == null){
+			return 1;
+		}
 		return page;
 	}
 	
@@ -22,6 +25,9 @@ public class BaseQueryDTO {
 	}
 	
 	public Integer getLimit() {
+		if(limit == null){
+			return 10;
+		}
 		return limit;
 	}
 	
